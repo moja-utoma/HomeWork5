@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
+using Npgsql;
+using ConsoleTables;
+using System.Reflection;
+
+public static class PrintUtil
+{
+    public static async Task PrintAsync(NpgsqlDataReader reader)
+    {
+        var table = new ConsoleTable();
+
+        // Add columns
+        for (int i = 0; i < reader.FieldCount; i++)
+            table.Columns.Add(reader.GetName(i));
+
+        // Add rows
+        while (await reader.ReadAsync())
+        {
+            var row = new object[reader.FieldCount];
+            reader.GetValues(row);
+            table.AddRow(row);
+        }
+
+        table.Write(Format.Minimal); // or Format.Default
+    }
+
+    public static void Print(DataTable dataTable)
+    {
+        var table = new ConsoleTable();
+
+        // Add columns
+        foreach (DataColumn col in dataTable.Columns)
+            table.Columns.Add(col.ColumnName);
+
+        // Add rows
+        foreach (DataRow dr in dataTable.Rows)
+            table.AddRow(dr.ItemArray);
+
+        table.Write(Format.Minimal); // or Format.Default
+    }
+}
