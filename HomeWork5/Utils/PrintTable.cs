@@ -8,9 +8,10 @@ using System.Reflection;
 
 public static class PrintUtil
 {
-    public static async Task PrintAsync(NpgsqlDataReader reader)
+    public static async Task<int> PrintAsync(NpgsqlDataReader reader)
     {
         var table = new ConsoleTable();
+        int rowCount = 0;
 
         // Add columns
         for (int i = 0; i < reader.FieldCount; i++)
@@ -22,9 +23,12 @@ public static class PrintUtil
             var row = new object[reader.FieldCount];
             reader.GetValues(row);
             table.AddRow(row);
+            rowCount++;
         }
 
         table.Write(Format.Minimal); // or Format.Default
+
+        return rowCount;
     }
 
     public static void Print(DataTable dataTable)
