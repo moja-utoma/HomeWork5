@@ -45,4 +45,12 @@ public static class PrintUtil
 
         table.Write(Format.Minimal); // or Format.Default
     }
+
+    public static void PrintOrder(Order order)
+    {
+        Console.WriteLine($"ID: {order.Id}");
+        Console.WriteLine($"Datetime: {order.Datetime}");
+        Console.WriteLine($"Analysis ID: {order.AnalysisId}");
+        Console.WriteLine($"Analysis Name: {order.Analysis?.Name}");
+    }
 }

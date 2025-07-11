@@ -6,6 +6,7 @@ public class Order
     [Key, Column("ord_id")]
     public int Id { get; set; }
     [Column("ord_datetime")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime Datetime { get; set; }
     [Column("ord_an")]
     public int AnalysisId { get; set; }
